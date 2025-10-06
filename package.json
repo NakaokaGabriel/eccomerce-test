@@ -1,0 +1,52 @@
+{
+  "name": "test-stafanini",
+  "version": "1.0.0",
+  "description": "Projeto de teste para Stafanini - E-commerce com Next.js e Node.js",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:client && npm run install:server",
+    "install:client": "cd client && npm install",
+    "install:server": "cd server && npm install",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run start:dev",
+    "build": "npm run build:server && npm run build:client",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:client": "cd client && npm run start",
+    "start:server": "cd server && npm run start:prod",
+    "test": "npm run test:server",
+    "test:server": "cd server && npm run test",
+    "test:client": "cd client && npm run test",
+    "docker:dev": "cd server && npm run docker:dev",
+    "docker:prod": "cd server && npm run docker:prod",
+    "docker:down": "cd server && npm run docker:down",
+    "migrate:run": "cd server && npm run migrate:run",
+    "migrate:status": "cd server && npm run migrate:status",
+    "migrate:create": "cd server && npm run migrate:create",
+    "migrate:reset": "cd server && npm run migrate:reset",
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:server": "cd server && npm run lint",
+    "lint:client": "cd client && npm run lint",
+    "format": "npm run format:server && npm run format:client",
+    "format:server": "cd server && npm run format",
+    "format:client": "cd client && npm run format"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "ecommerce",
+    "nextjs",
+    "nodejs",
+    "typescript",
+    "postgresql"
+  ],
+  "author": "Stafanini",
+  "license": "ISC"
+}

@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ecommerce-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ecommerce_db
+      POSTGRES_USER: ecommerce_user
+      POSTGRES_PASSWORD: ecommerce_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./migrations/postgresql:/docker-entrypoint-initdb.d
+    networks:
+      - ecommerce-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecommerce_user -d ecommerce_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Migration Runner
+  migrations:
+    image: postgres:15-alpine
+    container_name: ecommerce-migrations-dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ecommerce_db
+      DB_USER: ecommerce_user
+      DB_PASSWORD: ecommerce_password
+    volumes:
+      - ./migrations/postgresql:/migrations
+    networks:
+      - ecommerce-network
+    command: >
+      sh -c "
+        apk add --no-cache bash &&
+        chmod +x /migrations/run_migrations.sh &&
+        /migrations/run_migrations.sh
+      "
+
+  # Development Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: ecommerce-app-dev
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://ecommerce_user:ecommerce_password@postgres:5432/ecommerce_db
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - ecommerce-network
+    command: ["pnpm", "run", "start:dev"]
+
+volumes:
+  postgres_dev_data:
+    driver: local
+
+networks:
+  ecommerce-network:
+    driver: bridge
