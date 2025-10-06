@@ -1,6 +1,6 @@
-# Test Stafanini - E-commerce
+# Test Stefanini - E-commerce
 
-Este é um projeto de e-commerce desenvolvido como teste para a Stafanini, utilizando Next.js para o frontend e Node.js com Express para o backend, conectado a um banco PostgreSQL.
+Este é um projeto de e-commerce desenvolvido como teste para a Stefanini, utilizando Next.js para o frontend e Node.js com Express para o backend, conectado a um banco PostgreSQL.
 
 ## 🏗️ Arquitetura
 
