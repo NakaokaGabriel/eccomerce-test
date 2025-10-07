@@ -17,16 +17,30 @@ export class AddToCartUseCase {
     if (!request.productId || request.productId.trim() === '') {
       throw new Error('Product ID is required');
     }
-    if (request.quantity <= 0) {
-      throw new Error('Quantity must be greater than 0');
-    }
 
     const product = await this.productDAO.findById(request.productId);
     if (!product) {
       throw new Error('Product not found');
     }
 
-    let cart = await this.cartDAO.listAll();
+    const findCartByProduct = await this.cartDAO.findByProductId({
+      productId: request.productId
+    });
+
+    const cart = await this.cartDAO.listAll();
+
+    if (request.quantity <= 0) {
+      await this.cartDAO.delete({
+        id: findCartByProduct.id
+      });
+      return cart;
+    }
+
+    if (findCartByProduct) {
+      await this.cartDAO.update(request);
+
+      return cart;
+    }
 
     await this.cartDAO.save(request);
   

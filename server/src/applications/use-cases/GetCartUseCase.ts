@@ -5,7 +5,7 @@ export class GetCartUseCase {
   constructor(private cartDAO: CartDAO) {}
 
   async execute(): Promise<Output> {
-    const cart = await this.cartDAO.listAll();
+    const cart = await this.cartDAO.listAllWithProducts();
     
     if (!cart) {
       return {

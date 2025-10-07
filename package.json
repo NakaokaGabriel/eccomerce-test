@@ -38,6 +38,7 @@
     "format:client": "cd client && npm run format"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "concurrently": "^8.2.2"
   },
   "keywords": [
@@ -48,5 +49,9 @@
     "postgresql"
   ],
   "author": "Stafanini",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3"
+  }
 }

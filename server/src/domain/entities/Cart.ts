@@ -3,6 +3,7 @@ import { Product } from './Product';
 export class Cart {
   constructor(
     public readonly product: Product,
+    public readonly id: string,
     public readonly quantity: number
   ) {
     if (quantity <= 0) {
@@ -22,6 +23,6 @@ export class Cart {
   }
 
   public updateQuantity(newQuantity: number): Cart {
-    return new Cart(this.product, newQuantity);
+    return new Cart(this.product, this.id, newQuantity);
   }
 }

@@ -14,7 +14,6 @@ export class CartController {
       '/cart',
       async () => {
         const output = await this.getCartUseCase.execute();
-        console.log("🚀 ~ CartController ~ constructor ~ output:", output)
 
         return {
           cart: output,
