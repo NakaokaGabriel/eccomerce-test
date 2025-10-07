@@ -10,8 +10,7 @@ import { addToCartFormAction } from "@/lib/actions";
 import { FeaturedProductCard } from "@/components/featured-product-card";
 
 export default async function Home() {
-  const products = await productsServerService.getAllProducts();
-  const product = products.length > 0 ? products[0] : null;
+  const product = await productsServerService.getProduct("prod_1");
 
   if (!product) {
     return (
@@ -35,22 +34,14 @@ export default async function Home() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          {/* Navigation */}
           <div className="flex justify-between items-center mb-8">
             <div className="flex gap-4">
               <Button variant="default" asChild>
                 <Link href="/">Produto em Destaque</Link>
               </Button>
-              <Button variant="outline" asChild>
-                <Link href="/products">Todos os Produtos</Link>
-              </Button>
             </div>
             <CartButton />
           </div>
-
-          <h1 className="text-3xl font-bold text-center mb-8 text-foreground">
-            Produto em Destaque
-          </h1>
 
           <FeaturedProductCard product={product} features={features} />
         </div>

@@ -131,6 +131,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       const response = await apiClient.getCart();
+      console.log("🚀 ~ loadCart ~ response:", response)
 
       // Convert backend cart items to frontend format
       const cartItems: CartItem[] = response.cart.items.map((item: any) => ({
@@ -184,8 +185,15 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const removeItem = async (id: string) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      // For now, we'll use local state update since there's no remove endpoint
+
+      await apiClient.addToCart({
+        productId: id,
+        quantity: 0
+      });
+
       dispatch({ type: 'REMOVE_ITEM', payload: id });
+
+      await loadCart();
     } catch (error) {
       console.error('Failed to remove item from cart:', error);
     } finally {
@@ -196,6 +204,12 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const updateQuantity = async (id: string, quantity: number) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
+
+      await apiClient.addToCart({
+        productId: id,
+        quantity: quantity
+      });
+
       // For now, we'll use local state update since there's no update endpoint
       dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
     } catch (error) {

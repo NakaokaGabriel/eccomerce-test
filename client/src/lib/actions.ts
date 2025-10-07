@@ -92,7 +92,6 @@ class ServerApiClient {
   }
 
   async addToCart(data: AddToCartRequest): Promise<{ message: string; cart: Cart }> {
-    console.log("🚀 ~ ServerApiClient ~ addToCart ~ data:", data)
     return this.request<{ message: string; cart: Cart }>('/api/cart/add', {
       method: 'POST',
       body: JSON.stringify(data),

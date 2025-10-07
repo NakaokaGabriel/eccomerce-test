@@ -44,7 +44,7 @@ interface CartDrawerProps {
 }
 
 export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const { state, updateQuantity, removeItem, clearCart } = useCart();
+  const { state, updateQuantity, removeItem } = useCart();
 
   if (!isOpen) return null;
 
@@ -146,9 +146,6 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </div>
 
               <div className="flex gap-2">
-                <Button variant="outline" onClick={clearCart} className="flex-1">
-                  Limpar Carrinho
-                </Button>
                 <Button className="flex-1">
                   Finalizar Compra
                 </Button>

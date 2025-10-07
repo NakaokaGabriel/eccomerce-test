@@ -78,11 +78,11 @@ class ApiClient {
 
   // Cart API
   async getCart(): Promise<{ cart: Cart }> {
-    return this.request<{ cart: Cart }>('/api/cart');
+    return this.request<{ cart: Cart }>('/cart');
   }
 
   async addToCart(data: AddToCartRequest): Promise<{ message: string; cart: Cart }> {
-    return this.request<{ message: string; cart: Cart }>('/api/cart/add', {
+    return this.request<{ message: string; cart: Cart }>('/cart/add', {
       method: 'POST',
       body: JSON.stringify(data),
     });
